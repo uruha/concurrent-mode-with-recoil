@@ -1,0 +1,28 @@
+{
+  "name": "concurrent-mode-with-recoil",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack serve",
+    "build": "webpack",
+    "watch": "webpack -w",
+    "type:check": "tsc -p . --noEmit"
+  },
+  "keywords": [],
+  "author": "Kotaro Chiba <kochmusica@gmail.com> (https://github.com/uruha/uruha)",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^8.0.17",
+    "typescript": "^4.2.3",
+    "webpack": "^5.24.4",
+    "webpack-cli": "^4.5.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.2",
+    "react": "0.0.0-experimental-ec372faef",
+    "react-dom": "0.0.0-experimental-ec372faef"
+  }
+}
