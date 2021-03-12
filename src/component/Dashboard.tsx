@@ -3,8 +3,11 @@ import { atom, useRecoilValue } from 'recoil';
 
 import * as api from '~/api';
 import { userDataFetcher } from '~/fetcher';
-
 import { UserId, UserDataResource } from '~/type';
+
+type UserDataProps = {
+  resource: UserDataResource;
+}
 
 const userIdState = atom<UserId>({
   key: 'UserId',
@@ -12,12 +15,12 @@ const userIdState = atom<UserId>({
 });
 const initialResource = userDataFetcher(userIdState, api);
 
-const ProfileDetails: React.VFC<{ resource: UserDataResource }> = ({ resource }) => {
+const ProfileDetails: React.VFC<UserDataProps> = ({ resource }) => {
   const profile = useRecoilValue(resource.profile);
   return <h1>{profile.name}</h1>;
 };
 
-const PostLists: React.VFC<{ resource: UserDataResource }> = ({ resource }) => {
+const PostLists: React.VFC<UserDataProps> = ({ resource }) => {
   const posts = useRecoilValue(resource.posts);
   return (
     <ul>
