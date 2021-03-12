@@ -10,6 +10,15 @@
       "es2020",
       "dom"
     ],
+    "baseUrl": "./",
+    "paths": {
+      "~/*": [
+        "src/*"
+      ]
+    },
+    "rootDirs": [
+      "./src"
+    ],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true
