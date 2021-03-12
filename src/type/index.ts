@@ -16,12 +16,12 @@ export type Post = {
 export type Posts = Post[];
 
 /** recoil wrapped interface */
-export type UserIdState = RecoilState<UserId>;
-export type UserProfile = RecoilValueReadOnly<Profile>;
-export type UserPosts   = RecoilValueReadOnly<Posts>;
+export type UserIdState      = RecoilState<UserId>;
+export type UserProfileState = RecoilValueReadOnly<Profile>;
+export type UserPostsState   = RecoilValueReadOnly<Posts>;
 export interface UserDataResource {
-  profile: UserProfile;
-  posts  : UserPosts;
+  profile: UserProfileState;
+  posts  : UserPostsState;
 }
 
 /** specifically used abstracted interface */
