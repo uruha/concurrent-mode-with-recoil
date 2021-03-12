@@ -1,12 +1,11 @@
 import { selector } from 'recoil';
-import { fetchProfile, fetchPosts } from '~/api';
 import { UserDataFetcher } from '~/type';
 
-export const userDataFetcher: UserDataFetcher = (userIdState) => {
+export const userDataFetcher: UserDataFetcher = (userIdState, api) => {
   const userProfileState = selector({
     key: 'UserProfile',
     get: async ({ get }) => {
-      const response = await fetchProfile(get(userIdState));
+      const response = await api.fetchProfile(get(userIdState));
       return response;
     }
   });
@@ -14,7 +13,7 @@ export const userDataFetcher: UserDataFetcher = (userIdState) => {
   const userPostsState = selector({
     key: 'UserPosts',
     get: async ({ get }) => {
-      const response = await fetchPosts(get(userIdState));
+      const response = await api.fetchPosts(get(userIdState));
       return response;
     }
   });

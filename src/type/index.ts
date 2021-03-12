@@ -1,7 +1,8 @@
 import { RecoilState, RecoilValueReadOnly } from 'recoil';
 
-/** abstracted fetcher */
-export type DataFetcher<S, R> = (state: S) => R;
+/** abstracted interface */
+export type DataFetcher<S, A, R> = (state: S, externalApi: A) => R;
+export type ExternalApi<I, O> = (input: I) => Promise<O>;
 
 /** core business interface */
 export type UserId = string;
@@ -23,5 +24,9 @@ export interface UserDataResource {
   posts  : UserPosts;
 }
 
-/** specifically used DataFetcher */
-export type UserDataFetcher = DataFetcher<UserIdState, UserDataResource>;
+/** specifically used abstracted interface */
+export interface UserDataApi {
+  fetchProfile: ExternalApi<UserId, Profile>;
+  fetchPosts  : ExternalApi<UserId, Posts>;
+} 
+export type UserDataFetcher = DataFetcher<UserIdState, UserDataApi, UserDataResource>;

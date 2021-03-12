@@ -1,6 +1,7 @@
 import React, { Suspense, useState } from 'react';
 import { atom, useRecoilValue } from 'recoil';
 
+import * as api from '~/api';
 import { userDataFetcher } from '~/fetcher';
 
 import { UserId, UserDataResource } from '~/type';
@@ -9,7 +10,7 @@ const userIdState = atom<UserId>({
   key: 'UserId',
   default: 'u001'
 });
-const initialResource = userDataFetcher(userIdState);
+const initialResource = userDataFetcher(userIdState, api);
 
 const ProfileDetails: React.VFC<{ resource: UserDataResource }> = ({ resource }) => {
   const profile = useRecoilValue(resource.profile);
@@ -31,7 +32,7 @@ const Dashboard: React.VFC = () => {
   const [resource, setResource] = useState(initialResource);
 
   const handleRefreshData = () => {
-    setResource(userDataFetcher(userIdState));
+    setResource(userDataFetcher(userIdState, api));
   }
 
   return (
