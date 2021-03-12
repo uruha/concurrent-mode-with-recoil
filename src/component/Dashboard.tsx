@@ -16,6 +16,17 @@ const ProfileDetails: React.VFC<{ resource: UserDataResource }> = ({ resource })
   return <h1>{profile.name}</h1>;
 };
 
+const PostLists: React.VFC<{ resource: UserDataResource }> = ({ resource }) => {
+  const posts = useRecoilValue(resource.posts);
+  return (
+    <ul>
+      {posts.map(post => (
+        <li key={post.id}>{post.text}</li>
+      ))}
+    </ul>
+  );
+};
+
 const Dashboard: React.VFC = () => {
   const [resource, setResource] = useState(initialResource);
 
@@ -32,6 +43,9 @@ const Dashboard: React.VFC = () => {
         fallback={<p>Loading profile...</p>}
       >
         <ProfileDetails resource={resource} />
+        <Suspense fallback={<p>Loading posts...</p>}>
+          <PostLists resource={resource} />
+        </Suspense>
       </Suspense>
     </>
   );
