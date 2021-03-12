@@ -1,4 +1,4 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense, useState, unstable_useTransition } from 'react';
 import { atom, useRecoilValue } from 'recoil';
 
 import * as api from '~/api';
@@ -33,15 +33,23 @@ const PostLists: React.VFC<UserDataProps> = ({ resource }) => {
 
 const Dashboard: React.VFC = () => {
   const [resource, setResource] = useState(initialResource);
+  const [startTransition, isPending] = unstable_useTransition({
+    busyDelayMs: 3000
+  });
 
   const handleRefreshData = () => {
-    setResource(userDataFetcher(userIdState, api));
+    startTransition(() => {
+      setResource(userDataFetcher(userIdState, api));
+    });
   }
 
   return (
     <>
-      <button onClick={handleRefreshData}>
-        Refresh
+      <button
+        disabled={isPending}
+        onClick={handleRefreshData}
+      >
+        {isPending ? "Loading..." : "Refresh"}
       </button>
       <Suspense
         fallback={<p>Loading profile...</p>}
