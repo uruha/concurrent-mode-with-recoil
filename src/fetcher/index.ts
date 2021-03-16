@@ -9,7 +9,7 @@ export const userProfileAdapter: UserDataAdapter['profile'] = (api, userIdState)
   }
 });
 
-export const userPostsadapter: UserDataAdapter['posts'] = (api, userIdState) => selector({
+export const userPostsAdapter: UserDataAdapter['posts'] = (api, userIdState) => selector({
   key: 'UserPosts',
   get: async ({ get }) => {
     const response = await api.fetchPosts(get(userIdState));
@@ -20,6 +20,6 @@ export const userPostsadapter: UserDataAdapter['posts'] = (api, userIdState) => 
 export const userDataFetcher: UserDataFetcher = (api, userIdState) => {
   return {
     profile: userProfileAdapter(api, userIdState),
-    posts: userPostsadapter(api, userIdState)
+    posts: userPostsAdapter(api, userIdState)
   };
 };
