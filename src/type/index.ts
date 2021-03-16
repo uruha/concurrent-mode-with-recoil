@@ -1,15 +1,19 @@
 import { RecoilState, RecoilValueReadOnly } from 'recoil';
 
 /** abstracted type */
-export type DataFetcher<A, S, R> = undefined extends S
-  ? (externalApi: A, state?: S) => R
-  : (externalApi: A, state: S) => R;
 export type ExternalApi<I, O> = undefined extends I
   ? (input?: I) => Promise<O>
   : (input: I) => Promise<O>;
+
 export type Adapter<A, S, V> = undefined extends S
   ? (externalApi: A, state?: S) => V
   : (externalApi: A, state: S) => V;
+  
+export type ReturnType<T> = T extends (...arg: any[]) => infer R ? R : any;
+
+export type DataFetcher<A, S, T> = undefined extends S
+  ? (externalApi: A, state?: S) => { [K in keyof T]: ReturnType<T[K]> }
+  : (externalApi: A, state: S) => { [K in keyof T]: ReturnType<T[K]> };
 
 /** core business interface */
 export type UserId = string;
@@ -36,9 +40,5 @@ export interface UserDataAdapter {
   profile: Adapter<UserDataApi, UserIdState, UserProfileState>;
   posts  : Adapter<UserDataApi, UserIdState, UserPostsState>;
 }
-export interface UserDataResource {
-  profile: UserProfileState;
-  posts  : UserPostsState;
-}
 
-export type UserDataFetcher = DataFetcher<UserDataApi, UserIdState, UserDataResource>;
+export type UserDataFetcher = DataFetcher<UserDataApi, UserIdState, UserDataAdapter>;
