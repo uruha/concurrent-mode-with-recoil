@@ -3,10 +3,10 @@ import { atom, useRecoilValue } from 'recoil';
 
 import * as api from '~/api';
 import { userDataFetcher } from '~/fetcher';
-import { UserId, UserDataFetcher } from '~/type';
+import { UserId } from '~/type';
 
 type UserDataProps = {
-  resource: ReturnType<UserDataFetcher>;
+  resource: ReturnType<typeof userDataFetcher>;
 }
 
 const userIdState = atom<UserId>({
