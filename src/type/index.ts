@@ -26,7 +26,10 @@ export type Post = {
 }
 export type Posts = Post[];
 
-/** recoil wrapped interface */
+/**
+ * recoil wrapped interface
+ * (the value you want to use in your recoil)
+ */
 export type UserIdState      = RecoilState<UserId>;
 export type UserProfileState = RecoilValueReadOnly<Profile>;
 export type UserPostsState   = RecoilValueReadOnly<Posts>;
