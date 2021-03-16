@@ -13,7 +13,7 @@ const userIdState = atom<UserId>({
   key: 'UserId',
   default: 'u001'
 });
-const initialResource = userDataFetcher(userIdState, api);
+const initialResource = userDataFetcher(api, userIdState);
 
 const ProfileDetails: React.VFC<UserDataProps> = ({ resource }) => {
   const profile = useRecoilValue(resource.profile);
@@ -39,7 +39,7 @@ const Dashboard: React.VFC = () => {
 
   const handleRefreshData = () => {
     startTransition(() => {
-      setResource(userDataFetcher(userIdState, api));
+      setResource(userDataFetcher(api, userIdState));
     });
   }
 

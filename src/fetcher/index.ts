@@ -1,25 +1,25 @@
 import { selector } from 'recoil';
-import { UserDataFetcher } from '~/type';
+import { UserDataFetcher, UserDataAdapter } from '~/type';
 
-export const userDataFetcher: UserDataFetcher = (userIdState, api) => {
-  const userProfileState = selector({
-    key: 'UserProfile',
-    get: async ({ get }) => {
-      const response = await api.fetchProfile(get(userIdState));
-      return response;
-    }
-  });
+export const userProfileAdapter: UserDataAdapter['profile'] = (api, userIdState) => selector({
+  key: 'UserProfile',
+  get: async ({ get }) => {
+    const response = await api.fetchProfile(get(userIdState));
+    return response;
+  }
+});
 
-  const userPostsState = selector({
-    key: 'UserPosts',
-    get: async ({ get }) => {
-      const response = await api.fetchPosts(get(userIdState));
-      return response;
-    }
-  });
+export const userPostsadapter: UserDataAdapter['posts'] = (api, userIdState) => selector({
+  key: 'UserPosts',
+  get: async ({ get }) => {
+    const response = await api.fetchPosts(get(userIdState));
+    return response;
+  }
+});
 
+export const userDataFetcher: UserDataFetcher = (api, userIdState) => {
   return {
-    profile: userProfileState,
-    posts: userPostsState
+    profile: userProfileAdapter(api, userIdState),
+    posts: userPostsadapter(api, userIdState)
   };
 };

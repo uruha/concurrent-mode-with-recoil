@@ -1,8 +1,15 @@
 import { RecoilState, RecoilValueReadOnly } from 'recoil';
 
-/** abstracted interface */
-export type DataFetcher<S, A, R> = (state: S, externalApi: A) => R;
-export type ExternalApi<I, O> = (input: I) => Promise<O>;
+/** abstracted type */
+export type DataFetcher<A, S, R> = undefined extends S
+  ? (externalApi: A, state?: S) => R
+  : (externalApi: A, state: S) => R;
+export type ExternalApi<I, O> = undefined extends I
+  ? (input?: I) => Promise<O>
+  : (input: I) => Promise<O>;
+export type Adapter<A, S, V> = undefined extends S
+  ? (externalApi: A, state?: S) => V
+  : (externalApi: A, state: S) => V;
 
 /** core business interface */
 export type UserId = string;
@@ -19,14 +26,19 @@ export type Posts = Post[];
 export type UserIdState      = RecoilState<UserId>;
 export type UserProfileState = RecoilValueReadOnly<Profile>;
 export type UserPostsState   = RecoilValueReadOnly<Posts>;
-export interface UserDataResource {
-  profile: UserProfileState;
-  posts  : UserPostsState;
-}
 
 /** specifically used abstracted interface */
 export interface UserDataApi {
   fetchProfile: ExternalApi<UserId, Profile>;
   fetchPosts  : ExternalApi<UserId, Posts>;
-} 
-export type UserDataFetcher = DataFetcher<UserIdState, UserDataApi, UserDataResource>;
+}
+export interface UserDataAdapter {
+  profile: Adapter<UserDataApi, UserIdState, UserProfileState>;
+  posts  : Adapter<UserDataApi, UserIdState, UserPostsState>;
+}
+export interface UserDataResource {
+  profile: UserProfileState;
+  posts  : UserPostsState;
+}
+
+export type UserDataFetcher = DataFetcher<UserDataApi, UserIdState, UserDataResource>;
