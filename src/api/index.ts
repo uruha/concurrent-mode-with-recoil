@@ -36,7 +36,7 @@ export const fetchPosts = (userId: UserId) => {
 
   return new Promise<Posts>((resolve, reject) => {
     setTimeout(() => {
-      Boolean(Math.random() < 0.5)
+      (Math.random() < 0.5)
         ? resolve(result)
         : reject('Cannot fetch posts');
     }, 2000);
