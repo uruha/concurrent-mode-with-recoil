@@ -1,5 +1,6 @@
 import React, { Suspense, useState, unstable_useTransition } from 'react';
 import { atom, useRecoilValue } from 'recoil';
+import ErrorBoundary from '~/ErrorBoundary';
 
 import * as api from '~/api';
 import { userDataFetcher } from '~/fetcher';
@@ -55,9 +56,13 @@ const Dashboard: React.VFC = () => {
         fallback={<p>Loading profile...</p>}
       >
         <ProfileDetails resource={resource} />
-        <Suspense fallback={<p>Loading posts...</p>}>
-          <PostLists resource={resource} />
-        </Suspense>
+        <ErrorBoundary
+          fallback={<h2>Could not fetch posts.<br/>Please reload this web page 🥺</h2>}
+        >
+          <Suspense fallback={<p>Loading posts...</p>}>
+            <PostLists resource={resource} />
+          </Suspense>
+        </ErrorBoundary>
       </Suspense>
     </>
   );
